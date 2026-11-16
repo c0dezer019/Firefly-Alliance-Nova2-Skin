@@ -1,0 +1,93 @@
+/* ═══════════════════════════════════════════════════════════
+   ADMIN CONTENT LISTS (manage posts / logs / news / newscats /
+   comments / missions / awards). Builds on .fn-log-*, .fn-manage-*,
+   .fn-write-*, .fn-mg-* and .fn-modal-* from app.css.
+   ═══════════════════════════════════════════════════════════ */
+
+/* plain text value shown instead of a form control (non-admin edit) */
+.fn-mc-static {
+    display: block; padding: 11px 0;
+    font-family: theme('fontFamily.display'); font-size: 14px; letter-spacing: .5px; color: var(--color-text-bright);
+}
+.fn-mc-warn { color: var(--color-amber); font-style: normal; }
+.fn-mc-kbd-link { color: var(--color-blue); text-transform: none; letter-spacing: .5px; font-size: 11px; }
+.fn-mc-kbd-link:hover { color: var(--color-blue-hover); }
+
+/* description / body text inside list rows */
+.fn-mc-desc { margin-top: 6px; font-size: 14px; line-height: 1.6; color: var(--color-text-mid); }
+.fn-mc-desc p { margin: 0; }
+
+/* row variants */
+.fn-log-row.fn-mc-row-comment { grid-template-columns: minmax(180px, 28%) 1fr auto; }
+.fn-log-row.fn-mc-row-thumb { grid-template-columns: 160px 1fr auto; }
+.fn-mc-comment-body { padding: 14px 20px; font-size: 14px; line-height: 1.6; color: var(--color-text-mid); border-left: 1px solid #080f1e; }
+.fn-mc-thumb { padding: 14px 20px; display: flex; align-items: center; }
+.fn-mc-thumb img { display: block; max-width: 120px; height: auto; }
+
+/* comments: loader + nested sub-tabs (outer #tabs is styled by .fn-admin-dash) */
+.fn-mc-loader { padding: 24px 0; text-align: center; color: var(--color-text-dim); }
+.fn-admin-dash .subtabs.ui-tabs { background: transparent; border: none; padding: 0; }
+.fn-admin-dash .subtabs .ui-tabs-nav {
+    display: flex; gap: 4px; margin: 0 0 16px; padding: 0; background: none; border: none;
+    border-bottom: 1px solid var(--color-border);
+}
+.fn-admin-dash .subtabs .ui-tabs-nav li { margin: 0; border: none; background: none; }
+.fn-admin-dash .subtabs .ui-tabs-nav a {
+    display: block; padding: 8px 16px;
+    font-family: theme('fontFamily.display'); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--color-text-dim); background: rgba(3, 5, 12, .7); border: 1px solid #163055; border-bottom: none;
+}
+.fn-admin-dash .subtabs .ui-tabs-nav .ui-tabs-active a { color: #9ab8cc; background: rgba(5, 9, 20, .95); }
+.fn-admin-dash .subtabs .ui-tabs-panel { background: none; border: none; padding: 0; }
+
+/* news categories */
+.fn-mc-catrow {
+    display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto; gap: 16px 24px; align-items: end;
+    padding: 18px 28px; border-bottom: 1px solid var(--color-border);
+}
+.fn-mc-check { display: flex; align-items: center; gap: 8px; padding-bottom: 10px; }
+.fn-mc-check label {
+    font-family: theme('fontFamily.display'); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #5878a0;
+}
+
+/* short textareas inside write panels (mission / award descriptions) */
+.fn-write-panel .fn-mc-short textarea { height: 160px; min-height: 160px; padding: 14px 18px; font-size: 15px; line-height: 1.7; }
+.fn-mc-radios { display: flex; gap: 24px; }
+.fn-mc-radios label { margin-left: 6px; font-family: theme('fontFamily.display'); font-size: 12px; letter-spacing: 1px; color: #8ab0cc; }
+
+/* mission / award image tabs */
+.fn-mc-upload { margin: 0 0 16px; }
+.fn-mc-update { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; }
+.fn-mc-images button {
+    padding: 8px 20px; min-height: 34px; cursor: pointer; line-height: normal; margin: 0;
+    font-family: theme('fontFamily.display'); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: #8ab4e0; background: transparent; border: 1px solid #163055; border-radius: 0; box-shadow: none;
+}
+.fn-mc-images button:hover { color: #c8f0ff; border-color: #3a9cf0; }
+.fn-mc-images #list-grid { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.fn-mc-images #list-grid li {
+    position: relative; padding: 6px; background: #03060c; border: 1px solid #163055; cursor: move;
+}
+.fn-mc-images #list-grid li img { display: block; }
+.fn-mc-images #list-grid li a.upload-close {
+    position: absolute; top: 2px; right: 2px; z-index: 1; padding: 0 6px; line-height: 18px;
+    background: #03060c; border: 1px solid #3d2010; color: var(--color-amber); text-decoration: none; font-size: 12px;
+}
+.fn-mc-images #list-grid li.ui-state-highlight { width: 130px; height: 90px; background: rgba(58,98,200,.08); border: 1px dashed var(--color-blue); }
+.fn-log-row.fn-mc-filerow { grid-template-columns: minmax(0, 1fr) 160px auto; align-items: center; }
+.fn-mc-filename { padding: 12px 20px; font-family: theme('fontFamily.display'); font-size: 12px; letter-spacing: .5px; color: var(--color-text-bright); word-break: break-all; }
+.fn-mc-filename a { color: var(--color-blue); text-decoration: none; }
+.fn-mc-filename a:hover { color: var(--color-blue-hover); }
+.fn-mc-filethumb { padding: 8px 20px; }
+.fn-mc-filethumb img { display: block; max-width: 120px; max-height: 80px; width: auto; height: auto; }
+.fn-mc-fileact { padding: 12px 20px; }
+
+/* modals */
+.fn-mc-modal-full { grid-column: 1 / -1; }
+.fn-mc-modal-value { padding-top: 8px; font-family: theme('fontFamily.display'); font-size: 14px; color: var(--color-text-bright); }
+
+@media (max-width: 720px) {
+    .fn-log-row.fn-mc-row-comment, .fn-log-row.fn-mc-row-thumb, .fn-log-row.fn-mc-filerow { grid-template-columns: 1fr; }
+    .fn-mc-comment-body, .fn-mc-fileact { border-left: none; }
+    .fn-mc-catrow { grid-template-columns: 1fr; }
+}

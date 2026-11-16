@@ -1,0 +1,101 @@
+/* ═══════════════════════════════════════════════════════════
+   ADMIN: USERS / ROLES / BANS (user_*, site_bans, site_roles*,
+   site_rolepages, site_rolepagegroups + their facebox modals).
+   Builds on .fn-set (site_settings) and .fn-modal-* (app.css).
+   Plain CSS, no theme() lookups. Must be imported/concatenated
+   into the build alongside app.css.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ---- link stacks and inline label+control rows ---- */
+.fn-usr-links { margin: 0 0 24px; }
+.fn-usr-links p { margin: 0 0 10px; }
+.fn-usr-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--color-blue); text-decoration: none; }
+.fn-usr-link:hover { color: var(--color-blue-hover); }
+.fn-usr-link img { display: block; width: 18px; height: 18px; }
+.fn-usr-inline { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 12px; }
+.fn-usr-note, .fn-usr-warn { margin: 0 0 18px; font-size: 14px; font-weight: normal; color: var(--color-text-mid); }
+.fn-usr-warn { color: var(--color-amber); }
+.fn-usr-hint { display: block; margin: 0 0 6px; font-size: 12px; color: var(--color-text-dim); }
+.fn-usr-loader { padding: 40px 0; }
+.fn-usr-meta { margin: 0 0 8px; font-size: 14px; line-height: 1.8; color: var(--color-text-mid); }
+.fn-usr-meta strong { font-weight: normal; color: var(--color-text-bright); }
+.fn-usr-check { margin: 0 0 10px; font-size: 14px; color: var(--color-text-mid); }
+.fn-usr-check input, .fn-usr-perm input, .fn-modal-check input { accent-color: #3a62c8; }
+.fn-usr-act button, .fn-usr-inline button {
+    padding: 0; background: none; border: none; font-size: 15px;
+    color: var(--color-blue); text-decoration: underline; cursor: pointer;
+}
+.fn-usr-act button:hover, .fn-usr-inline button:hover { color: var(--color-blue-hover); }
+.fn-usr .fn-set-actions.fn-usr-act { margin-top: 26px; }
+
+/* ---- label / control grid ---- */
+.fn-usr-grid { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 12px 16px; align-items: start; max-width: 760px; margin: 0 0 24px; }
+.fn-usr-grid > kbd.fn-set-label { padding-top: 7px; }
+.fn-usr-grid .fn-usr-ctl { min-width: 0; }
+.fn-usr-grid .fn-set-radios { padding-top: 6px; }
+.fn-usr-grid .fn-usr-inline { margin: 0; }
+.fn-usr input[type="password"], .fn-usr input[type="email"], .fn-usr textarea {
+    width: 100%; max-width: 400px; padding: 6px 10px; box-sizing: border-box;
+    background: #f0f2f5; border: 1px solid #1a2a3a; outline: none;
+    font-family: inherit; font-size: 14px; color: #20303f;
+}
+.fn-usr textarea { min-height: 110px; max-width: 560px; resize: vertical; line-height: 1.6; }
+.fn-usr input[type="password"]:focus, .fn-usr input[type="email"]:focus, .fn-usr textarea:focus { border-color: var(--color-blue); }
+.fn-usr .fn-usr-ctl input[type="text"] { margin-bottom: 10px; }
+.fn-usr-panel { max-width: 760px; margin: 0 0 28px; padding: 22px 26px; border: 1px solid #163055; background: rgba(4, 7, 16, .92); box-shadow: inset 0 0 40px rgba(58, 98, 200, .04); }
+
+/* ---- list rows (users, bans, roles, pages, groups, characters, ranks) ---- */
+.fn-usr-list { max-width: 960px; margin: 0 0 24px; border: 1px solid #163055; background: rgba(4, 7, 16, .92); }
+.fn-usr-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #0e1828; }
+.fn-usr-row:last-child { border-bottom: none; }
+.fn-usr-row:not(.fn-usr-row-head):hover { background: rgba(58, 98, 200, .04); }
+.fn-usr-row-head { padding-top: 10px; padding-bottom: 10px; font-family: inherit; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #2a4060; }
+.fn-usr-row-simple { grid-template-columns: minmax(0, 1fr) auto; }
+.fn-usr-row-char { grid-template-columns: minmax(0, 1fr) auto; }
+.fn-usr-row-rank { grid-template-columns: 36px minmax(0, 1fr); }
+.fn-usr-name { display: block; font-size: 15px; color: var(--color-text-bright); }
+.fn-usr-sub { display: block; margin-top: 3px; font-size: 12px; line-height: 1.5; color: var(--color-text-dim); }
+.fn-usr-sub a { color: var(--color-blue); }
+.fn-usr-aux { font-size: 13px; line-height: 1.6; color: var(--color-text-mid); }
+.fn-usr-main img { vertical-align: middle; }
+.fn-usr-actions { display: flex; align-items: center; justify-content: flex-end; gap: 14px; }
+.fn-usr-actions a.image { display: inline-flex; opacity: .6; }
+.fn-usr-actions a.image:hover { opacity: 1; }
+.fn-usr-actions img { display: block; width: 18px; height: 18px; }
+.fn-usr-radio { text-align: center; }
+.fn-usr-ranks .fn-usr-main label { display: block; margin-bottom: 4px; }
+
+/* simple tables used where a script targets table rows (quicksearch) */
+.fn-usr-table { width: 100%; max-width: 760px; border-collapse: collapse; margin: 0 0 24px; }
+.fn-usr-table td { padding: 10px 14px; border-bottom: 1px solid #0e1828; vertical-align: middle; }
+.fn-usr-table td.fn-usr-actions { display: table-cell; text-align: right; width: 60px; }
+.fn-usr-search { margin: 0 0 12px; }
+
+/* ---- role permission matrix ---- */
+.fn-usr-perms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 18px; max-width: 960px; margin: 0 0 22px; padding: 14px 16px; border: 1px solid #163055; background: rgba(4, 7, 16, .92); }
+.fn-usr-perm { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+.fn-usr-perm input { margin-top: 4px; flex: none; }
+.fn-usr-perm label { min-width: 0; cursor: pointer; word-break: break-word; }
+
+/* ---- facebox modals ---- */
+.fn-modal-checks { margin: 0 0 8px; }
+.fn-modal-check { margin: 0 0 8px; font-size: 14px; color: #9ab8cc; }
+.fn-modal-select { margin: 0 0 8px; }
+.fn-modal-list { margin: 0; padding: 0; list-style: none; }
+.fn-modal-list li { margin: 0 0 6px; font-size: 14px; color: var(--color-text-bright); }
+.fn-modal-list strong { font-weight: normal; }
+.fn-modal-empty { font-size: 15px; color: var(--color-amber); }
+#facebox .popup select.hud {
+    max-width: 360px; padding: 6px 8px; background: #03060c; border: 1px solid #163055; color: #c8ddf0;
+    font-size: 13px; outline: none;
+}
+#facebox .popup select.hud:focus { border-color: #3a62c8; }
+#facebox .popup input[type="password"].hud { max-width: 360px; }
+
+@media (max-width: 720px) {
+    .fn-usr-grid { grid-template-columns: minmax(0, 1fr); }
+    .fn-usr-grid > kbd.fn-set-label { padding-top: 0; }
+    .fn-usr-row { grid-template-columns: minmax(0, 1fr) auto; }
+    .fn-usr-row-head > div:nth-child(2), .fn-usr-row .fn-usr-aux { grid-column: 1 / -1; }
+    .fn-usr-perms { grid-template-columns: minmax(0, 1fr); }
+}

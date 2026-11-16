@@ -1,0 +1,19 @@
+skin: Firefly Nova2
+location: firefly_nova2
+credits: |
+  The Firefly Nova2 skin was built for the Anodyne Productions Nova 2.x sim
+  management platform. Author/license: fill in before public distribution.
+version: 1.0
+sections:
+  -
+    type: main
+    preview: preview-main.jpg
+  -
+    type: login
+    preview: preview-login.jpg
+  -
+    type: wiki
+    preview: preview-wiki.jpg
+  -
+    type: admin
+    preview: preview-admin.jpg

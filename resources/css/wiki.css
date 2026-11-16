@@ -1,0 +1,129 @@
+@import 'app.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* ═══════════════════════════════════════════════════════════
+   WIKI SKIN — the wiki section (template_wiki.php wraps page content in
+   .wiki-article). Read views lean on the .fn-* system from app.css; admin
+   views (managepages/managecats/create/edit) keep Nova's exact JS hooks
+   (rel="page-control"/myAction/myID, #category-panel/.tag, facebox, filters)
+   and are only skinned here — same approach as the admin control panel.
+   ═══════════════════════════════════════════════════════════ */
+
+/* The template's .wiki-article wrapper forces italic + 800px; keep that only
+   for real article prose, reset it for our structured components. */
+.wiki-article { max-width: none; font-style: normal; }
+.wiki-article .prose, .wiki-article .wiki-prose {
+    max-width: 800px;
+    font-family: theme('fontFamily.body');
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--color-text-mid);
+}
+.wiki-article .prose h1, .wiki-article .prose h2, .wiki-article .prose h3,
+.wiki-article .wiki-prose h1, .wiki-article .wiki-prose h2, .wiki-article .wiki-prose h3 {
+    font-family: theme('fontFamily.display');
+    color: var(--color-text-bright);
+    letter-spacing: 2px;
+}
+.wiki-article .prose p { margin: 0 0 16px; }
+.wiki-article .prose a, .wiki-article a { color: var(--color-blue); text-decoration: none; }
+.wiki-article .prose a:hover, .wiki-article a:hover { color: var(--color-blue-hover); }
+
+/* Search panel (wiki_index) */
+.fn-wiki-search-trigger { float: right; }
+.fn-wiki-search-trigger a { font-family: theme('fontFamily.display'); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--color-blue); text-decoration: none; }
+#search-panel, .fn-wiki-search {
+    background: rgba(5,9,20,.92); border: 1px solid var(--color-border-dim);
+    border-left: 3px solid var(--color-blue); padding: 22px 26px; margin: 0 0 24px;
+}
+#search-panel kbd, .fn-wiki-search kbd { display: block; font-family: theme('fontFamily.display'); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-dim); margin-bottom: 6px; background: none; }
+#search-panel input[type="text"], #search-panel select, #search-panel input:not([type]),
+.fn-wiki-search input[type="text"], .fn-wiki-search select {
+    width: 100%; background: var(--color-bg); border: 1px solid var(--color-border);
+    border-bottom: 1px solid #1a3060; padding: 10px 14px; color: #8ab0cc;
+    font-family: theme('fontFamily.body'); font-size: 15px; outline: none; margin-bottom: 14px;
+}
+#search-panel button, .fn-wiki-search button {
+    font-family: theme('fontFamily.display'); font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: #f0f6ff; background: var(--color-blue); border: 1px solid var(--color-blue-bright); padding: 10px 24px; cursor: pointer;
+}
+
+/* Wiki article subnav / toolbar (view_page, managepages) */
+.wiki-subnav { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin: 0 0 20px; padding-bottom: 14px; border-bottom: 1px solid var(--color-border-dim); }
+.wiki-subnav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 18px; flex-wrap: wrap; }
+.wiki-subnav a { font-family: theme('fontFamily.display'); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--color-blue); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.wiki-subnav a:hover { color: var(--color-blue-hover); }
+.wiki-subnav img { max-height: 14px; width: auto; }
+.subnav-options { position: relative; }
+.subnav-options-list { position: absolute; z-index: 5; background: rgba(5,9,20,.98); border: 1px solid var(--color-border-dim); padding: 8px 0; min-width: 200px; }
+.subnav-options-list ul { flex-direction: column; gap: 0; }
+.subnav-options-list li a { padding: 6px 16px; display: block; }
+
+/* Article meta line (created by ... on ...) */
+.wiki-article .fontSmall.gray, .wiki-article .fn-wiki-created { font-family: theme('fontFamily.display'); font-size: 10px; letter-spacing: .5px; color: var(--color-text-dim); }
+.fn-wiki-created { margin: 0 0 18px; }
+
+/* Recent / category / categories lists */
+.wiki-article table.table100 { width: 100%; border-collapse: collapse; margin: 12px 0 20px; }
+.wiki-article table.table100 th { text-align: left; font-family: theme('fontFamily.display'); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-dim); padding: 10px 14px; border-bottom: 1px solid var(--color-border-dim); }
+.wiki-article table.table100 td { padding: 14px; border-bottom: 1px solid #0a1220; vertical-align: top; font-style: normal; }
+.wiki-article table.table100 strong a, .wiki-article table.table100 td a { color: var(--color-blue); text-decoration: none; }
+.wiki-article table.table100 td a:hover { color: var(--color-blue-hover); }
+.wiki-article table.table100 .fontSmall.gray, .wiki-article table.table100 em { color: var(--color-text-dim); font-size: 13px; }
+
+ul.cat_search, ul.square { list-style: none; margin: 12px 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+ul.cat_search li, ul.square li { background: rgba(5,8,18,.85); border: 1px solid var(--color-border); border-left: 3px solid #1a3060; padding: 14px 22px; }
+ul.cat_search li:hover, ul.square li:hover { border-left-color: var(--color-blue); }
+ul.cat_search li a, ul.square li a { font-family: theme('fontFamily.display'); font-size: 14px; letter-spacing: 1px; color: var(--color-blue); text-decoration: none; }
+ul.cat_search li a:hover, ul.square li a:hover { color: var(--color-blue-hover); }
+ul.cat_search li em, ul.square li em { display: block; margin-top: 4px; font-size: 13px; color: var(--color-text-dim); }
+
+.label-system, .label-restrict { font-family: theme('fontFamily.display'); font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 8px; border: 1px solid; margin-right: 6px; }
+.label-system { color: var(--color-amber); border-color: #3d2010; }
+.label-restrict { color: #d05858; border-color: #3d1010; }
+
+/* Manage pages — page rows */
+#search_pages { display: flex; flex-direction: column; gap: 3px; }
+#search_pages > div { background: rgba(5,8,18,.85); border: 1px solid var(--color-border); border-left: 3px solid #1a3060; padding: 16px 22px; }
+.page-main { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.page-main > span { font-size: 15px; color: var(--color-text-bright); }
+.page-controls ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 12px; }
+.page-controls a { color: var(--color-blue); }
+.page-controls img { max-height: 15px; width: auto; }
+.page-supplemental { margin-top: 10px; font-size: 12px; color: var(--color-text-dim); }
+.search_pages, .search_cat { }
+
+/* Category tag panel (create/edit) */
+#category-panel { background: rgba(3,5,12,.7); border: 1px solid var(--color-border); padding: 18px 22px; margin: 8px 0 20px; }
+.category-panel-header { display: flex; gap: 8px; margin-bottom: 14px; }
+#category-panel-name { flex: 1; background: var(--color-bg); border: 1px solid var(--color-border); border-bottom: 1px solid #1a3060; padding: 8px 12px; color: #8ab0cc; font-family: theme('fontFamily.body'); font-size: 14px; outline: none; }
+#category-panel-create { background: var(--color-blue); border: 1px solid var(--color-blue-bright); color: #fff; padding: 0 16px; cursor: pointer; }
+#category-panel-content-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { display: inline-block; font-family: theme('fontFamily.display'); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--color-text-dim); background: rgba(5,9,20,.9); border: 1px solid var(--color-border); padding: 4px 12px; cursor: pointer; }
+.tag.tag-active { color: #f0f6ff; background: var(--color-blue); border-color: var(--color-blue-bright); }
+
+/* Add-category toggle (managecats) */
+.addcat, .info-full { }
+.addcat.hidden { display: none; }
+.addtoggle { font-family: theme('fontFamily.display'); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--color-blue); text-decoration: none; }
+
+/* Wiki forms (create/edit) — reuse the fn-form field look on raw inputs */
+.wiki-article form input[type="text"], .wiki-article form input:not([type]),
+.wiki-article form textarea, .wiki-article form select {
+    width: 100%; background: var(--color-bg); border: 1px solid var(--color-border);
+    border-bottom: 1px solid #1a3060; padding: 10px 14px; color: #8ab0cc;
+    font-family: theme('fontFamily.body'); font-size: 15px; line-height: 1.7; outline: none;
+    font-style: normal;
+}
+.wiki-article form textarea { min-height: 140px; resize: vertical; }
+.wiki-article form input:focus, .wiki-article form textarea:focus, .wiki-article form select:focus { border-color: var(--color-blue); color: var(--color-text-bright); }
+.wiki-article form .fontMedium.bold, .wiki-article form p.bold { font-family: theme('fontFamily.display'); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-dim); font-style: normal; }
+.wiki-article form button, .wiki-article form input[type="submit"] {
+    font-family: theme('fontFamily.display'); font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: #f0f6ff; background: var(--color-blue); border: 1px solid var(--color-blue-bright); padding: 12px 28px; cursor: pointer; margin-top: 8px;
+}
+.wiki-article .bold a { color: var(--color-blue); text-decoration: none; }

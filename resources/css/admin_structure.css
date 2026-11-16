@@ -1,0 +1,249 @@
+/* ═══════════════════════════════════════════════════════════
+   ADMIN — MANAGE SIM STRUCTURE
+   decks, depts, positions, ranks, specs, tour, docked (+ their modals).
+   Plain CSS, var(--color-*) tokens only. Reuses .fn-mg-* rows from app.css
+   (panel / row / name / meta / desc / actions / btn) — only gaps are here.
+   No heavy black shadows: 1px hairlines + soft inset glow only.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── shared page bits ─────────────────────────────────────── */
+.fn-st-intro { max-width: 760px; margin: 0 0 20px; font-size: 16px; line-height: 1.9; color: #7c9ab8; }
+.fn-st-intro p { margin: 0; }
+.fn-st-links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 22px; font-size: 13px; letter-spacing: .5px; }
+.fn-st-links a { color: var(--color-blue); }
+.fn-st-links a:hover { color: var(--color-blue-hover); }
+.fn-st-section {
+    margin: 26px 0 12px;
+    font-size: 13px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--color-text-bright);
+}
+.fn-st-empty { margin: 14px 0; color: var(--color-amber); font-size: 15px; }
+.fn-st-list { margin: 0 0 24px; }
+.fn-st-name { display: block; font-size: 16px; color: var(--color-text-bright); }
+.fn-st-sub { display: block; margin-top: 2px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--color-text-mid); }
+.fn-st-link { color: var(--color-blue); }
+.fn-st-link:hover { color: var(--color-blue-hover); }
+.fn-st-btn-ok { color: #4a9e6e; border-color: #1c3a2a; }
+.fn-st-btn-ok:hover { color: #4a9e6e; border-color: #4a9e6e; }
+.fn-st-note { margin: 0 0 14px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--color-amber); }
+.fn-st-linkset { margin: 0; padding: 0; list-style: none; }
+.fn-st-linkset li { padding: 10px 0; border-bottom: 1px solid #080f1e; font-size: 16px; }
+
+/* ── pill nav (positions depts, ranks sets/classes) ───────── */
+.fn-st-nav { margin: 0 0 22px; padding: 18px 24px; background: var(--color-panel); border: 1px solid var(--color-border); }
+.fn-st-nav-title { margin: 0 0 12px; font-size: 12px; font-weight: normal; letter-spacing: 3px; text-transform: uppercase; color: var(--color-text-bright); }
+.fn-st-nav-label { margin: 10px 0 6px; font-size: 13px; letter-spacing: 1px; color: var(--color-text-bright); }
+.fn-st-pills { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 8px; }
+.fn-st-pill {
+    display: inline-block; padding: 3px 12px;
+    border: 1px solid var(--color-border-dim);
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--color-blue);
+}
+.fn-st-pill:hover { border-color: var(--color-blue); color: var(--color-blue-hover); }
+.fn-st-pill img { display: block; max-height: 28px; }
+.fn-st-pill-img { padding: 4px 8px; }
+
+/* ── add link ─────────────────────────────────────────────── */
+.fn-st-add { margin: 0 0 20px; }
+
+/* ── form controls (pages) ────────────────────────────────── */
+.fn-struct input[type="text"],
+.fn-struct input[type="password"],
+.fn-struct select,
+.fn-struct textarea {
+    max-width: 100%; padding: 7px 10px;
+    background: #03060c; border: 1px solid #163055; border-radius: 0;
+    color: var(--color-text-bright); font-size: 14px; outline: none;
+}
+.fn-struct input[type="text"] { width: 100%; max-width: 420px; }
+.fn-struct textarea { width: 100%; min-height: 140px; resize: vertical; line-height: 1.6; }
+.fn-struct input:focus, .fn-struct select:focus, .fn-struct textarea:focus { border-color: var(--color-blue); }
+.fn-struct input[type="radio"], .fn-struct input[type="checkbox"] { accent-color: #3a62c8; }
+.fn-struct kbd, .fn-st-label {
+    display: block; margin: 0 0 4px; padding: 0; background: none; border: 0;
+    font-size: 12px; letter-spacing: .5px; color: #9ab8cc;
+}
+.fn-struct label { font-size: 13px; color: #8ab0cc; }
+.fn-st-field { margin: 0 0 18px; max-width: 460px; }
+.fn-st-field-wide { max-width: 760px; }
+.fn-st-field-wide input[type="text"] { max-width: 100%; }
+.fn-st-radios label { margin-right: 14px; }
+.fn-st-help { margin: 0 0 6px; font-size: 13px; line-height: 1.6; color: var(--color-text-dim); }
+.fn-st-help p { margin: 0; }
+.fn-st-inline-help { display: inline-block; margin-left: 8px; vertical-align: middle; cursor: help; }
+.fn-st-inline-help img { width: 16px; height: 16px; vertical-align: middle; }
+.fn-st-group-form { margin: 0 0 12px 0; padding-left: 16px; border-left: 1px solid var(--color-border-dim); }
+.fn-st-ext { margin-left: 6px; font-size: 12px; color: var(--color-text-mid); }
+.fn-st-form-panel { padding: 22px 28px; background: var(--color-panel); border: 1px solid var(--color-border); margin: 0 0 22px; }
+.fn-st-actions { margin-top: 22px; }
+.fn-st-actions button, .fn-st-addbar button, .fn-st-deck-actions button, .fn-st-imgbar button, .fn-st-uploaded button {
+    padding: 10px 26px; min-height: 36px; cursor: pointer; line-height: normal; margin: 0;
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: #8ab4e0; background: transparent; border: 1px solid #163055; border-radius: 0; box-shadow: none;
+}
+.fn-st-actions button:hover, .fn-st-addbar button:hover, .fn-st-deck-actions button:hover,
+.fn-st-imgbar button:hover, .fn-st-uploaded button:hover { color: #c8f0ff; border-color: #3a9cf0; }
+.fn-st-actions button.button-main, .fn-st-addbar button.button-main, .fn-st-deck-actions button.button-main {
+    color: #03060c; background: #3a9cf0; border-color: #8fd0ff;
+}
+.fn-st-actions button.button-main:hover, .fn-st-addbar button.button-main:hover,
+.fn-st-deck-actions button.button-main:hover { background: #8fd0ff; color: #03060c; }
+
+/* ── decks ────────────────────────────────────────────────── */
+.fn-st-loader { min-height: 24px; margin: 0 0 8px; font-size: 12px; color: var(--color-text-mid); }
+.fn-st-addbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 22px; }
+.fn-st-addbar input[type="text"] { width: 260px; }
+.fn-st-decks { margin: 0 0 10px; }
+.fn-st-decks #list { margin: 0; padding: 0; list-style: none; }
+.fn-st-decks #list li {
+    display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; gap: 16px;
+    margin: 0 0 6px; padding: 10px 16px;
+    background: var(--color-panel); border: 1px solid var(--color-border);
+    color: var(--color-text-bright); cursor: move;
+}
+.fn-st-decks #list li:hover { border-color: var(--color-border-dim); }
+.fn-st-decks #list li a { color: var(--color-blue); }
+.fn-st-decks #list li a:hover { color: var(--color-blue-hover); }
+.fn-st-decks #list li a.remove { color: var(--color-amber); font-size: 14px; }
+.fn-st-decks #list li.ui-state-highlight { height: 42px; background: rgba(58, 98, 200, .06); border: 1px dashed var(--color-blue); }
+.fn-st-deck-actions { margin-top: 16px; }
+
+/* ── positions ────────────────────────────────────────────── */
+.fn-st-poslist { margin: 0 0 20px; }
+.fn-st-pos {
+    display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.2fr) auto;
+    gap: 14px 22px; align-items: end;
+    padding: 16px 0; border-bottom: 1px solid #080f1e;
+}
+.fn-st-pos-cell { min-width: 0; }
+.fn-st-pos-cell select { width: 100%; }
+.fn-st-pos-open { font-size: 13px; color: var(--color-text-bright); }
+.fn-st-pos-open strong { font-weight: normal; color: #9ab8cc; margin-right: 4px; }
+.fn-st-pos-del { display: flex; align-items: center; gap: 8px; padding-bottom: 6px; white-space: nowrap; }
+.fn-st-pos-more { grid-column: 1 / -1; text-align: right; }
+.fn-st-pos-more button, .fn-st-rank-more button {
+    padding: 3px 12px; cursor: pointer; line-height: normal;
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--color-blue); background: transparent; border: 1px solid var(--color-border); border-radius: 0; box-shadow: none;
+}
+.fn-st-pos-more button:hover, .fn-st-rank-more button:hover { color: var(--color-blue-hover); border-color: var(--color-blue); }
+.fn-struct .slider { margin: 10px 4px 0; height: 8px; background: #03060c; border: 1px solid #163055; border-radius: 0; position: relative; }
+.fn-struct .slider .ui-slider-range { background: var(--color-blue); height: 100%; position: absolute; top: 0; left: 0; }
+.fn-struct .slider .ui-slider-handle {
+    position: absolute; top: -5px; width: 14px; height: 16px; margin-left: -7px;
+    background: #8fd0ff; border: 1px solid #3a9cf0; border-radius: 0; outline: none;
+}
+.fn-struct .slider_control { min-width: 0; }
+
+/* position "more" popover content */
+.fn-st-popover { min-width: 0; }
+.fn-st-popover .fn-st-field { max-width: 100%; margin: 0 0 12px; }
+.fn-st-popover select, .fn-st-popover input[type="text"], .fn-st-popover textarea {
+    width: 100%; max-width: 100%; padding: 6px 8px;
+    background: #03060c; border: 1px solid #163055; border-radius: 0; color: var(--color-text-bright); font-size: 13px;
+}
+.fn-st-popover textarea { min-height: 100px; }
+.fn-st-popover kbd { display: block; margin: 0 0 3px; padding: 0; background: none; border: 0; font-size: 12px; color: #9ab8cc; }
+.fn-st-popover-close { text-align: right; margin: 0 0 8px; font-size: 12px; }
+
+/* ── ranks ────────────────────────────────────────────────── */
+.fn-st-rank { padding: 16px 0; border-bottom: 1px solid #080f1e; }
+.fn-st-rank-main {
+    display: grid; grid-template-columns: 110px minmax(0, 1fr) 180px auto;
+    gap: 14px 22px; align-items: end;
+}
+.fn-st-rank-img { display: flex; align-items: center; min-height: 40px; }
+.fn-st-rank-img img { display: block; max-height: 40px; background: #0a1424; border: 1px solid #1a2a3a; padding: 4px; }
+.fn-st-rank-more-panel {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 22px;
+    margin: 14px 0 0 132px;
+}
+.fn-st-rank-more { margin-top: 10px; text-align: right; }
+
+/* ── image grids (specs / tour action pages) ──────────────── */
+.fn-st-imgbar { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; }
+.fn-st-grid { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.fn-st-grid li {
+    position: relative; padding: 6px;
+    background: var(--color-panel); border: 1px solid var(--color-border-dim); cursor: move;
+}
+.fn-st-grid li img { display: block; max-width: 130px; height: auto; }
+.fn-st-grid li a.upload-close {
+    position: absolute; top: 4px; right: 6px; z-index: 2;
+    padding: 0 6px; background: #03060c; border: 1px solid #3d2010; color: var(--color-amber); font-size: 12px; line-height: 1.5;
+}
+.fn-st-grid li.ui-state-highlight { width: 130px; height: 90px; background: rgba(58, 98, 200, .06); border: 1px dashed var(--color-blue); }
+.fn-st-uploaded { margin: 0; }
+.fn-st-uploaded-row {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 18px; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid #080f1e;
+}
+.fn-st-uploaded-file { font-size: 13px; color: var(--color-text-mid); word-break: break-all; }
+.fn-st-uploaded-row img { display: block; max-height: 60px; }
+.fn-st-upload-link { display: inline-block; margin: 0 0 16px; font-size: 14px; color: var(--color-blue); }
+
+/* subtabs (nested inside the specs/tour image tab) */
+.fn-admin-dash .subtabs.ui-tabs { background: transparent; border: 0; padding: 0; }
+.fn-admin-dash .subtabs > .ui-tabs-nav { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 18px; padding: 0; list-style: none; border-bottom: 1px solid var(--color-border-dim); background: none; }
+.fn-admin-dash .subtabs > .ui-tabs-nav li { margin: 0; border: 0; background: none; }
+.fn-admin-dash .subtabs > .ui-tabs-nav a {
+    display: block; padding: 7px 16px; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--color-text-mid); border: 1px solid transparent; border-bottom: 0;
+}
+.fn-admin-dash .subtabs > .ui-tabs-nav .ui-tabs-active a { color: var(--color-text-bright); border-color: var(--color-border-dim); background: var(--color-panel); }
+.fn-admin-dash .subtabs .ui-tabs-panel { padding: 0; background: none; border: 0; }
+
+/* ── docked ───────────────────────────────────────────────── */
+.fn-st-dock-row { display: grid; align-items: center; gap: 24px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto; }
+.fn-st-dock-url { font-size: 13px; }
+.fn-st-dock-gm { font-size: 15px; color: var(--color-text-mid); }
+.fn-st-dock-head {
+    display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto; gap: 24px;
+    padding: 0 0 8px; border-bottom: 1px solid var(--color-border-dim);
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-mid);
+}
+
+/* ── modals (facebox) ─────────────────────────────────────── */
+.fn-modal-sub {
+    grid-column: 1 / -1; margin: 10px 0 0; padding-top: 12px; border-top: 1px solid #0e1828;
+    font-size: 12px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-bright);
+}
+.fn-modal-full { grid-column: 1 / -1; }
+.fn-modal-hint { display: block; margin: 0 0 4px; font-size: 11px; color: var(--color-text-mid); }
+.fn-modal-radios { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; padding-top: 6px; font-size: 13px; color: #8ab0cc; }
+.fn-modal-radios label { font-size: 13px; color: #8ab0cc; }
+.fn-modal-radios input { accent-color: #3a62c8; }
+.fn-modal-subtext { margin: 0 0 4px; font-size: 13px; line-height: 1.6; color: var(--color-text-mid); }
+.fn-modal-block { margin: 0 0 14px; }
+.fn-modal-block .fn-modal-sub { margin-top: 0; padding-top: 0; border-top: 0; margin-bottom: 8px; }
+.fn-modal-check { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font-size: 14px; color: var(--color-text-bright); }
+.fn-modal-check input { accent-color: #3a62c8; }
+.fn-modal-note { margin: 0 0 10px; font-size: 12px; color: var(--color-amber); }
+.fn-modal-field { margin: 0 0 14px; }
+#facebox .popup .fn-modal-grid select,
+#facebox .popup .fn-modal-field select,
+#facebox .popup .fn-modal-block select {
+    width: 100%; max-width: 360px; padding: 7px 10px;
+    background: #03060c; border: 1px solid #163055; border-radius: 0; color: #c8ddf0; font-size: 13px; outline: none;
+}
+#facebox .popup .fn-modal-grid select:focus,
+#facebox .popup .fn-modal-field select:focus,
+#facebox .popup .fn-modal-block select:focus { border-color: #3a62c8; }
+#facebox .popup .fn-modal-grid input[type="text"],
+#facebox .popup .fn-modal-grid textarea,
+#facebox .popup .fn-modal-field textarea {
+    width: 100%; max-width: 360px; padding: 7px 10px;
+    background: #03060c; border: 1px solid #163055; border-radius: 0; color: #c8ddf0; font-size: 13px; outline: none;
+}
+#facebox .popup .fn-modal-field textarea { max-width: 100%; height: 160px; resize: vertical; }
+#facebox .popup .fn-modal-grid textarea { height: 140px; resize: vertical; }
+#facebox .popup .fn-modal-grid .fn-modal-full textarea { max-width: 100%; }
+
+@media (max-width: 720px) {
+    .fn-st-pos { grid-template-columns: minmax(0, 1fr); }
+    .fn-st-rank-main { grid-template-columns: minmax(0, 1fr); }
+    .fn-st-rank-more-panel { grid-template-columns: minmax(0, 1fr); margin-left: 0; }
+    .fn-st-dock-row, .fn-st-dock-head { grid-template-columns: minmax(0, 1fr); }
+    .fn-st-uploaded-row { grid-template-columns: minmax(0, 1fr); }
+}
